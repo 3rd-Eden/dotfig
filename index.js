@@ -72,6 +72,7 @@ function dotfig(options) {
 
     var packagejson = path.join(root, 'package.json');
     var file = path.join(root, filename);
+    var data;
 
     root = path.resolve(root, '..');
 
