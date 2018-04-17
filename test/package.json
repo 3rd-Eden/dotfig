@@ -1,0 +1,10 @@
+{
+  "name": "testpackagejson",
+  "description": "Used to detect/resolve config values",
+  "broken": {
+    "works": "well"
+  },
+  "test": {
+    "config": "should not read from package.json"
+  }
+}

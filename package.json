@@ -1,0 +1,31 @@
+{
+  "name": "dotfig",
+  "version": "1.0.0",
+  "description": "Configuration extraction from dot files or package.json field",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/3rd-Eden/dotfig.git"
+  },
+  "keywords": [
+    "dot",
+    "config",
+    "dotfig"
+  ],
+  "author": "Arnout Kazemier",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/3rd-Eden/dotfig/issues"
+  },
+  "example": {
+    "config": "from parent package.json"
+  },
+  "homepage": "https://github.com/3rd-Eden/dotfig#readme",
+  "devDependencies": {
+    "assume": "^2.0.1",
+    "mocha": "^5.1.0"
+  }
+}
