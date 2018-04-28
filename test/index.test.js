@@ -26,11 +26,25 @@ describe('dotfig', function () {
     assume(example.config).equals('value');
   });
 
+  it('allows the dot file to be disabled', function () {
+    const example = dotfig({ filename: false, name: 'test' });
+
+    assume(example).is.a('object');
+    assume(example.config).equals('should not read from package.json');
+  });
+
   it('reads package.json if .file is broken', function () {
     const example = dotfig('broken');
 
     assume(example).is.a('object');
     assume(example.works).equals('well');
+  });
+
+  it('allows ignoring of the `package.json`', function () {
+    const example = dotfig({ name: 'another', pkgjson: false });
+
+    assume(example).is.a('object');
+    assume(example.wat).equals('doin');
   });
 
   it('allows the name to be specified as name property', function () {

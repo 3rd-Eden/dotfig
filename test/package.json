@@ -6,5 +6,8 @@
   },
   "test": {
     "config": "should not read from package.json"
+  },
+  "another": {
+    "wat": "the fok"
   }
 }

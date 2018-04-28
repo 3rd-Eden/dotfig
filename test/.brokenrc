@@ -1,3 +1,3 @@
 {
-  "works": "broken";
+  "works": "broken because of semicolon behind the json value";
 }

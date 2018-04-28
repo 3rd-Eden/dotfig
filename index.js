@@ -59,19 +59,39 @@ function dotfig(options) {
     options = { name: options };
   }
 
+  /**
+   * Finds the default, or returns the fallback.
+   *
+   * @param {String} name Name of the option we want to default.
+   * @param {Mixed} fallback Default fallback.
+   * @returns {Mixed} Fallback or configured option.
+   * @private
+   */
+  function def(name, fallback) {
+    return name in options ? options[name] : fallback;
+  }
+
   //
   // Allow users to specify their own filename if they supply an object, or
   // default to the name .${name}rc
   //
-  var filename = options.filename || '.' + options.name + 'rc';
-  var parser = options.parse || parse;
-  var root = options.root || parent;
+  var filename = def('filename', '.' + options.name + 'rc');
+  var pkgjson = def('pkgjson', 'package.json');
+  var parser = def('parse', parse);
+  var root = def('root', parent);
 
+  /**
+   * The actual function that does the iteration of the directory and
+   * searches for the correct file. It traverses the parent directory
+   * until it reaches the root directory.
+   *
+   * @private
+   */
   return (function next() {
     if (root.match(/^(\w:\\|\/)$/) || root == path.sep) return null;
 
-    var packagejson = path.join(root, 'package.json');
-    var file = path.join(root, filename);
+    var packagejson = pkgjson && path.join(root, pkgjson);
+    var file = filename && path.join(root, filename);
     var data;
 
     root = path.resolve(root, '..');
@@ -83,8 +103,8 @@ function dotfig(options) {
     // 2. Adding an extra field to a pre-existing is the least labor intensive
     //    way of specifying configurations.
     //
-    if (fs.existsSync(file) && (data = parser(file))) return data;
-    if (fs.existsSync(packagejson) && (data = parse(packagejson))) {
+    if (file && fs.existsSync(file) && (data = parser(file))) return data;
+    if (pkgjson && fs.existsSync(packagejson) && (data = parse(packagejson))) {
       //
       // So, we have a package.json in this directory, lets see if it contains
       // the property that we need to return.

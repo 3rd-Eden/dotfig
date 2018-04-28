@@ -56,13 +56,17 @@ The following options can be specified;
   and return when it exists.
 - `filename` By default we generate a filename based on the supplied `name` by
   prefixing it with a `.` and adding `rc` to the end of it, this property allows
-  you to come up with a completely different filename.
+  you to come up with a completely different filename. Alternatively, if you
+  **never** want the rc file to be used, you can set this option to `false`.
 - `parse` A custom parser to read the dedicated configuration file. By default
   we use the JSON parser, but you could switch things up write your own parser
   function so you can read `toml` or `yaml` contents for example.
 - `root` The directory that we will start searching in. By default this will be
   the directory of the file that required the `dotfig` module and continue
   traversing the parent directory of it until we find a configuration file.
+- `packjson` Name of the `package.json` file, defaults to `package.json` but
+  you can also turn off searching for the `package.json` file by setting this
+  value to `false`.
 
 ## License
 
