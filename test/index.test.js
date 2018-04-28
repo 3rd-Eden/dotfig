@@ -63,4 +63,10 @@ describe('dotfig', function () {
     assume(example).is.a('object');
     assume(example.config).equals('value');
   });
+
+  it('finds nothing when pkgjson and filename are false', function () {
+    const example = dotfig({ name: 'test', filename: false, pkgjson: false });
+
+    assume(example).is.a('null');
+  });
 });
