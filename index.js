@@ -41,6 +41,39 @@ function parse(file) {
 }
 
 /**
+ * Actual function that tries to resolve a given directory in search
+ * of a given what ever triggers the iterator to return a value.
+ *
+ * @param {String} root Directory that we need to search in.
+ * @param {Function} iterator Function that is called on each directory level.
+ * @returns {Mixed} Null incase of nothing, anthing else incase of result.
+ * @private
+ */
+function resolve(root, iterator) {
+  /**
+   * The actual function that does the iteration of the directory and
+   * searches for the correct file. It traverses the parent directory
+   * until it reaches the root directory.
+   *
+   * @private
+   */
+  return (function next() {
+    if (root.match(/^(\w:\\|\/)$/) || root == path.sep) return null;
+
+    var data = iterator(root);
+    if (data) return data;
+
+    root = path.resolve(root, '..');
+
+    //
+    // No suitable match found, continue with the iteration until we've found
+    // something fruitful.
+    //
+    return next();
+  }());
+}
+
+/**
  * Extract the configuration from a given dotfile or package.json property.
  *
  * Options:
@@ -78,23 +111,11 @@ function dotfig(options) {
   var filename = def('filename', '.' + options.name + 'rc');
   var pkgjson = def('pkgjson', 'package.json');
   var parser = def('parse', parse);
-  var root = def('root', parent);
 
-  /**
-   * The actual function that does the iteration of the directory and
-   * searches for the correct file. It traverses the parent directory
-   * until it reaches the root directory.
-   *
-   * @private
-   */
-  return (function next() {
-    if (root.match(/^(\w:\\|\/)$/) || root == path.sep) return null;
-
+  return resolve(def('root', parent), function iterator(root) {
     var packagejson = pkgjson && path.join(root, pkgjson);
     var file = filename && path.join(root, filename);
     var data;
-
-    root = path.resolve(root, '..');
 
     //
     // Order of discovery is based on users effort in creating the files.
@@ -114,14 +135,15 @@ function dotfig(options) {
         if (names[i] in data) return data[names[i]];
       }
     }
-
-    //
-    // No suitable match found, continue with the iteration until we've found
-    // something fruitful.
-    //
-    return next();
-  }());
+  });
 }
+
+//
+// Expose the individual functions
+//
+dotfig.resolve = resolve;
+dotfig.parent = parent;
+dotfig.parse = parse;
 
 //
 // Finally, after all these hacks, we can safely expose the module.

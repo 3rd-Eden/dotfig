@@ -69,4 +69,22 @@ describe('dotfig', function () {
 
     assume(example).is.a('null');
   });
+
+  describe('#resolve', function () {
+    it('exposes the resolve method', function () {
+      assume(dotfig.resolve).is.a('function');
+    });
+  });
+
+  describe('#parse', function () {
+    it('exposes the parse method', function () {
+      assume(dotfig.parse).is.a('function');
+    });
+  });
+
+  describe('.parent', function () {
+    it('exposes the found parent', function () {
+      assume(dotfig.parent).equals(__filename);
+    });
+  });
 });
