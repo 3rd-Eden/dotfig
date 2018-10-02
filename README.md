@@ -64,7 +64,7 @@ The following options can be specified;
 - `root` The directory that we will start searching in. By default this will be
   the directory of the file that required the `dotfig` module and continue
   traversing the parent directory of it until we find a configuration file.
-- `packjson` Name of the `package.json` file, defaults to `package.json` but
+- `pkgjson` Name of the `package.json` file, defaults to `package.json` but
   you can also turn off searching for the `package.json` file by setting this
   value to `false`.
 
